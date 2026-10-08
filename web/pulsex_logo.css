@@ -1,0 +1,132 @@
+/* PulseX brand CSS — mark + wordmark + splash overlay.
+ * Mirrors the official PulseX logo: cyan → azure → blue gradient heart
+ * with a dark inset heart-shape and an ECG stroke through the middle,
+ * plus the two-tone "pulseX" wordmark (white "pulse", gradient "X").
+ */
+
+/* Reusable gradient stack used by the heart fill, ECG stroke, and the
+ * gradient tail of the wordmark. */
+:root {
+  --pulsex-mint: #55f0c4;
+  --pulsex-azure: #00aaff;
+  --pulsex-blue: #145cff;
+  --pulsex-ink: #050609;
+  --pulsex-gradient: linear-gradient(
+    135deg,
+    var(--pulsex-mint) 0%,
+    var(--pulsex-azure) 50%,
+    var(--pulsex-blue) 100%
+  );
+}
+
+.pulsex-logo {
+  --size: 220px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  color: #ffffff;
+}
+
+.pulsex-logo .heart {
+  position: relative;
+  width: calc(var(--size) * 1.0);
+  height: calc(var(--size) * 0.86);
+  transform: rotate(-45deg);
+  border-radius: 25px;
+  background: var(--pulsex-gradient);
+}
+
+.pulsex-logo .heart::before,
+.pulsex-logo .heart::after {
+  content: "";
+  position: absolute;
+  width: calc(var(--size) * 1.0);
+  height: calc(var(--size) * 0.86);
+  border-radius: 50%;
+  background: inherit;
+}
+
+.pulsex-logo .heart::before {
+  top: -50%;
+  left: 0;
+}
+
+.pulsex-logo .heart::after {
+  top: 0;
+  left: 50%;
+}
+
+.pulsex-logo .heart-inner {
+  position: absolute;
+  z-index: 2;
+  inset: 8% 8% 8% 8%;
+  background: var(--pulsex-ink);
+  border-radius: 20px;
+}
+
+.pulsex-logo .ecg {
+  position: absolute;
+  z-index: 5;
+  width: 68%;
+  height: 37%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.pulsex-logo .ecg svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  display: block;
+}
+
+.pulsex-logo .ecg-polyline {
+  fill: none;
+  stroke: url(#pulsexEcgGradient);
+  stroke-width: 9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.pulsex-logo .wordmark {
+  font-size: 64px;
+  font-weight: 700;
+  letter-spacing: -3px;
+  line-height: 1;
+}
+
+.pulsex-logo .wordmark .x {
+  background: var(--pulsex-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Splash overlay — shows the PulseX mark on the dark ink background
+ * while the Flutter web bundle finishes loading. Flutter draws over
+ * this once the canvas is mounted. */
+.pulsex-splash {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--pulsex-ink);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pulsex-splash .pulsex-logo {
+  --size: 180px;
+}
+
+.flt-glass-pane,
+.flutter-view,
+flutter-view,
+flt-scene-host {
+  z-index: 1;
+}

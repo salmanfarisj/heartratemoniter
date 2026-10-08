@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+  <base href="$FLUTTER_BASE_HREF">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="PulseX — Heart Rate Monitor & Activity Tracker">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="PulseX">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="pulsex_logo.css">
+
+  <title>PulseX</title>
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <!--
+    PulseX splash overlay (mark + wordmark) shown while the Flutter web
+    bundle initialises. The PulseX brand CSS paints everything below.
+  -->
+  <div class="pulsex-splash" id="pulsex-splash">
+    <div class="pulsex-logo">
+      <div class="heart">
+        <div class="heart-inner"></div>
+        <div class="ecg">
+          <svg viewBox="0 0 150 70" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="pulsexEcgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="#55f0c4"/>
+                <stop offset="50%" stop-color="#00aaff"/>
+                <stop offset="100%" stop-color="#145cff"/>
+              </linearGradient>
+            </defs>
+            <polyline class="ecg-polyline" points="
+              0,35
+              25,35
+              38,35
+              48,10
+              62,60
+              76,25
+              88,35
+              115,35
+              150,35
+            "/>
+          </svg>
+        </div>
+      </div>
+      <div class="wordmark">pulse<span class="x">X</span></div>
+    </div>
+  </div>
+
+  <!--
+    You can customize the "flutter_bootstrap.js" script.
+    This is useful to provide a custom configuration to the Flutter loader
+    or to give the user feedback during the initialization process.
+
+    For more details:
+    * https://docs.flutter.dev/platform-integration/web/initialization
+  -->
+  <script src="flutter_bootstrap.js" async></script>
+  <script>
+    // Once the Flutter engine hands off to the first frame, fade the
+    // PulseX splash out so the app's background isn't covered forever.
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('pulsex-splash');
+      if (splash) {
+        splash.style.transition = 'opacity 320ms ease';
+        splash.style.opacity = '0';
+        setTimeout(function () { splash.remove(); }, 360);
+      }
+    });
+  </script>
+</body>
+</html>
