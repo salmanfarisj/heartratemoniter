@@ -190,7 +190,7 @@ class _ActivitiesPageState extends State<ActivitiesPage> {
             AppSpacing.lg,
             AppSpacing.sm,
             AppSpacing.lg,
-            AppSpacing.xl,
+            AppSpacing.huge,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

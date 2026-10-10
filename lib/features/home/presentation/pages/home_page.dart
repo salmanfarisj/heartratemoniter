@@ -47,7 +47,7 @@ class HomePage extends StatelessWidget {
                 AppSpacing.lg,
                 AppSpacing.sm,
                 AppSpacing.lg,
-                AppSpacing.xl,
+                AppSpacing.huge,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

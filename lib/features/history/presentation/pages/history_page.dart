@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_radius.dart';
 import '../../../../core/constants/app_spacing.dart';
@@ -73,7 +74,7 @@ class _HistoryPageState extends State<HistoryPage> {
             AppSpacing.lg,
             AppSpacing.sm,
             AppSpacing.lg,
-            AppSpacing.xl,
+            AppSpacing.huge,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,10 +84,18 @@ class _HistoryPageState extends State<HistoryPage> {
 
               _SectionLabel('Sensors'),
               const SizedBox(height: AppSpacing.sm),
-              const _SensorsGrid(),
+              const _HrSensorCard(),
               const SizedBox(height: AppSpacing.lg),
 
-              _RoutePicker(),
+              Row(
+                children: [
+                  Expanded(child: _RoutePicker()),
+                  const SizedBox(width: AppSpacing.md),
+                  _LogActivityButton(
+                    onTap: () => context.go('/record'),
+                  ),
+                ],
+              ),
               const SizedBox(height: AppSpacing.xl),
 
               _SectionLabel('Heart Rate Trends'),
@@ -182,44 +191,9 @@ class _DeviceHeaderCard extends StatelessWidget {
   }
 }
 
-// ─── Sensors grid (2-column chip cards) ────────────────────────────────
-class _SensorsGrid extends StatelessWidget {
-  const _SensorsGrid();
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: const [
-        Expanded(
-          child: _SensorCard(
-            icon: Icons.favorite_outline,
-            label: 'HR',
-            connected: true,
-          ),
-        ),
-        SizedBox(width: AppSpacing.md),
-        Expanded(
-          child: _SensorCard(
-            icon: Icons.pedal_bike_outlined,
-            label: 'Power',
-            connected: true,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _SensorCard extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final bool connected;
-
-  const _SensorCard({
-    required this.icon,
-    required this.label,
-    required this.connected,
-  });
+// ─── HR sensor card ─────────────────────────────────────────────────────
+class _HrSensorCard extends StatelessWidget {
+  const _HrSensorCard();
 
   @override
   Widget build(BuildContext context) {
@@ -235,7 +209,7 @@ class _SensorCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(icon, color: AppColors.brandBlue, size: 18),
+              Icon(Icons.favorite_outline, color: AppColors.brandBlue, size: 18),
               const SizedBox(width: 6),
               Text(
                 'Connected',
@@ -248,7 +222,7 @@ class _SensorCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            label,
+            'HR',
             style: const TextStyle(
               fontSize: 15,
               fontWeight: FontWeight.w700,
@@ -309,6 +283,50 @@ class _RoutePicker extends StatelessWidget {
   }
 }
 
+// ─── "+ Log activity" pill (opens /record) ─────────────────────────────
+class _LogActivityButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _LogActivityButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: AppColors.brandBlue,
+      borderRadius: BorderRadius.circular(AppRadius.cards),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.cards),
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.lg,
+            vertical: AppSpacing.md,
+          ),
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.add,
+                color: AppColors.paperWhite,
+                size: 20,
+              ),
+              SizedBox(width: AppSpacing.xs),
+              Text(
+                'Log',
+                style: TextStyle(
+                  color: AppColors.paperWhite,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ─── HR trend chart (red filled area with corner stat pair) ──────────
 class _HrTrendChart extends StatelessWidget {
   const _HrTrendChart();
@@ -350,22 +368,24 @@ class _HrTrendChart extends StatelessWidget {
   }
 
   Widget _emptyState() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.show_chart,
-          size: 36,
-          color: AppColors.pewter.withValues(alpha: 0.6),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Text('No HR data yet', style: AppTypography.bodySm),
-        const SizedBox(height: 2),
-        Text(
-          'Connect a device to start tracking',
-          style: AppTypography.caption,
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.show_chart,
+            size: 36,
+            color: AppColors.pewter.withValues(alpha: 0.6),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text('No HR data yet', style: AppTypography.bodySm),
+          const SizedBox(height: 2),
+          Text(
+            'Connect a device to start tracking',
+            style: AppTypography.caption,
+          ),
+        ],
+      ),
     );
   }
 
@@ -663,22 +683,24 @@ class _WeeklyHrChart extends StatelessWidget {
   }
 
   Widget _emptyState() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.bar_chart_outlined,
-          size: 36,
-          color: AppColors.pewter.withValues(alpha: 0.6),
-        ),
-        const SizedBox(height: AppSpacing.sm),
-        Text('No weekly data yet', style: AppTypography.bodySm),
-        const SizedBox(height: 2),
-        Text(
-          'Track a few sessions to see your trend',
-          style: AppTypography.caption,
-        ),
-      ],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            Icons.bar_chart_outlined,
+            size: 36,
+            color: AppColors.pewter.withValues(alpha: 0.6),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          Text('No weekly data yet', style: AppTypography.bodySm),
+          const SizedBox(height: 2),
+          Text(
+            'Track a few sessions to see your trend',
+            style: AppTypography.caption,
+          ),
+        ],
+      ),
     );
   }
 

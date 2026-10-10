@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_radius.dart';
 import '../../../../core/constants/app_spacing.dart';
 import '../../../../core/constants/app_typography.dart';
 import '../../../../core/widgets/pulsex_logo.dart';
-import '../../../../core/widgets/segmented_selector.dart';
 import '../../../../core/widgets/wahoo_header.dart';
 import '../../../home/presentation/bloc/heart_rate_bloc.dart';
 import '../../../home/presentation/bloc/heart_rate_state.dart';
@@ -37,7 +37,7 @@ class SettingsPage extends StatelessWidget {
                 AppSpacing.lg,
                 AppSpacing.sm,
                 AppSpacing.lg,
-                AppSpacing.xl,
+                AppSpacing.huge,
               ),
               children: [
                 // Device card (mirrors the "HEADWIND 2344" hero on the
@@ -51,21 +51,6 @@ deviceName: hrState.connectedDevice?.name ??
                   onTap: () => _showDeviceSheet(context),
                 );
                   },
-                ),
-                const SizedBox(height: AppSpacing.xl),
-
-                _SectionLabel('Display Mode'),
-                const SizedBox(height: AppSpacing.md),
-                Center(
-                  child: SegmentedSelector<_DisplayMode>(
-                    selected: _DisplayMode.heartrate,
-                    onChanged: (_) {},
-                    options: const [
-                      SegmentedOption(_DisplayMode.heartrate, 'Heartrate'),
-                      SegmentedOption(_DisplayMode.speed, 'Speed'),
-                      SegmentedOption(_DisplayMode.control, 'Control'),
-                    ],
-                  ),
                 ),
                 const SizedBox(height: AppSpacing.xl),
 
@@ -114,6 +99,20 @@ deviceName: hrState.connectedDevice?.name ??
                               ),
                             );
                       },
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSpacing.xl),
+
+                _SectionLabel('Activity'),
+                const SizedBox(height: AppSpacing.md),
+                _SettingsGroup(
+                  children: [
+                    _SettingsRow(
+                      icon: Icons.history,
+                      label: 'History',
+                      value: 'View past sessions',
+                      onTap: () => context.go('/history'),
                     ),
                   ],
                 ),
@@ -313,13 +312,6 @@ deviceName: hrState.connectedDevice?.name ??
       ),
     );
   }
-}
-
-// ─── Display mode (segmented selector backing model) ──────────────────
-enum _DisplayMode {
-  heartrate,
-  speed,
-  control,
 }
 
 // ─── Section label (small caps tracking, matches history) ──────────────

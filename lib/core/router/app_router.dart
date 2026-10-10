@@ -14,15 +14,16 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/history',
+    initialLocation: '/home',
     routes: [
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (context, state, child) => ShellPage(child: child),
         routes: [
-          // Bottom-tab order matches the shell: Workout, History,
-          // Record (FAB), Settings. The Record tab mounts the
-          // existing log-activity form under the `/record` path.
+          // Bottom-tab order matches the shell: Workout, Record,
+          // Settings. Past sessions live under Settings → Activity →
+          // History. The `/history` route stays mounted for that entry
+          // point and any future deep-links.
           GoRoute(
             path: '/home',
             name: 'home',
