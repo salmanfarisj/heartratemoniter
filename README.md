@@ -19,6 +19,7 @@ A Flutter app that streams heart-rate data from a Bluetooth Low Energy (BLE) che
 - **CSV export** — `share_plus` writes a session CSV to a temp file and hands it off to the system share sheet from the Settings page.
 - **Local-first persistence** — `sqflite` for readings, activities, and settings. No accounts, no cloud.
 - **Permission-aware** — `permission_handler` for Bluetooth + Local Network (iOS) / `BLUETOOTH_SCAN` + `BLUETOOTH_CONNECT` (Android 12+) prompts, with a graceful empty-state until both are granted.
+- **4-tab bottom navigation** — `ShellPage` hosts a `go_router` `StatefulShellRoute` with **Home** (live HR), **Activities** (today's log), **History** (weekly trends), and **Settings** (max HR, CSV export).
 - **Material 3 + branded** — single light theme, cyan → blue `pulsexBlue` accent, `pulsex_logo` widget (heart + ECG mark) rendered in the header.
 
 ---
@@ -170,4 +171,30 @@ On first launch, grant both BLE prompts. If you decline, the device list will st
 
 ## License
 
-Add your license of choice (MIT, BSD-3-Clause, Apache-2.0, …) before public release — none is currently checked in.
+No `LICENSE` file is checked in yet. The recommended drop-in for a small, permissive license is MIT — copy this block into a new `LICENSE` file at the repo root, replacing `<year>` and `<copyright holder>`:
+
+```
+MIT License
+
+Copyright (c) <year> <copyright holder>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+Replace with BSD-3-Clause or Apache-2.0 if you prefer.
